@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('page', models.CharField(help_text='접속한 페이지', max_length=50)),
-                ('ip', models.CharField(blank=True, max_length=24, null=True)),
-                ('user_agent', models.CharField(blank=True, max_length=100, null=True)),
+                ('ip', models.CharField(blank=True, max_length=30, null=True)),
+                ('user_agent', models.CharField(blank=True, max_length=200, null=True)),
                 ('accessed_time', models.DateTimeField(auto_now_add=True)),
             ],
         ),
