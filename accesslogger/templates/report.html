@@ -1,0 +1,95 @@
+{% load static %}
+
+<script type="text/javascript">
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
+
+{% block content %}
+  <div class="container">
+
+
+<h2>Page View Report</h2>
+
+<h3>First Access (Remove duplication)</h3>
+
+<table id='firstAccess' border='1' cellspacing='0'>
+  <thead>
+    <th>접속시간</th>
+    <th>IP Address</th>
+    <th>User Agent</th>
+    <th>Page</th>
+  </thead>
+  <tbody>
+  {% for access in accesses_nodup %}
+    <tr>
+      <td>{{ access.first_accessed_time|date:'Y-m-d H:i:s' }}</td>
+      <td>{{ access.ip }}</td>
+      <td>{{ access.user_agent }}</td>
+      <td>{{ access.page }}</td>
+    </tr>
+  {% endfor %}  
+  </tbody>
+</table>
+
+<button onclick="exportTableToExcel('firstAccess', 'access')">Export Table Data To Excel File</button>
+
+</div>
+
+<hr/>
+
+<div class='container'>
+<h3>Raw</h3>
+
+<table id='raw' border='1' cellspacing='0'>
+  <thead>
+    <th>접속시간</th>
+    <th>IP Address</th>
+    <th>User Agent</th>
+    <th>Page</th>
+  </thead>
+  <tbody>
+  {% for access in accesses %}
+    <tr>
+      <td>{{ access.accessed_time|date:'Y-m-d H:i:s' }}</td>
+      <td>{{ access.ip }}</td>
+      <td>{{ access.user_agent }}</td>
+      <td>{{ access.page }}</td>
+    </tr>
+  {% endfor %}  
+  </tbody>
+</table>
+
+<button onclick="exportTableToExcel('raw', 'raw')">Export Table Data To Excel File</button>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% load static %}
+
+{% block content %}
+  <div class="container">
+
+
+<h2>Page Accessed Info</h2>
+
+<li>Page Name: {{ page_name }}</li>
+<li>IP Address: {{ ip }}</li>
+<li>User Agent: {{ user_agent }}</li>
+<li>Saved: {{ saved }}
+
+</div>
+
+
+{% endblock %}
