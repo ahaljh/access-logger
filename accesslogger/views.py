@@ -40,7 +40,7 @@ def report(request, page_name=None):
     if page_name:
         access_logs = all_access_logs.filter(page=page_name)
     
-    access_logs_nodup = access_logs.values('page', 'ip', 'user_agent').annotate(first_accessed_time=Min('accessed_time')).values('page', 'ip', 'user_agent', 'first_accessed_time')
+    access_logs_nodup = access_logs.values('page', 'ip', 'user_agent').annotate(first_accessed_time=Min('accessed_time')).values('page', 'ip', 'user_agent', 'first_accessed_time').order_by('first_accessed_time')
 
     return render(request, "report.html", {"accesses": access_logs, "accesses_nodup": access_logs_nodup})
 
