@@ -42,6 +42,6 @@ def report(request, page_name=None):
     
     access_logs_nodup = access_logs.values('page', 'ip', 'user_agent').annotate(first_accessed_time=Min('accessed_time')).values('page', 'ip', 'user_agent', 'first_accessed_time').order_by('first_accessed_time')
 
-    return render(request, "report.html", {"accesses": access_logs, "accesses_nodup": access_logs_nodup})
+    return render(request, "report.html", {"accesses": access_logs, "accesses_nodup": access_logs_nodup, "page_name": page_name})
 
 

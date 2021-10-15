@@ -40,28 +40,39 @@ function exportTableToExcel(tableID, filename = ''){
 
 <div class="container">
   <h1>Page View Report</h1>
+  <p class="lead">
+    {% if page_name %}
+      <b>{{ page_name }}</b> page의 접속자 내역입니다. 
+    {% endif %}
+  </p>
   <p></p>
 </div>
 
 <div class="container">
 
-<h4>First Access (Remove Duplication)</h4>
+<h3>First Access (Remove Duplication)</h3>
 
 <table id='firstAccess' class='table table-hover table-sm caption-top'>
   <caption>접속자를 표시합니다. IP와 User-Agent기준으로 여러 번 접속한 사람은 첫 번째 접속만 보여집니다. <!--(총 {{ accesses_nodup|length }} 건)--></caption>
   <thead class='table-light'>
+    <th>접속일</th>
     <th>접속시간</th>
     <th>IP Address</th>
     <th>User Agent</th>
+    {% if not page_name %}
     <th>Page</th>
+    {% endif %}
   </thead>
   <tbody>
   {% for access in accesses_nodup %}
     <tr>
-      <td>{{ access.first_accessed_time|date:'Y-m-d H:i:s' }}</td>
+      <td>{{ access.first_accessed_time|date:'Y-m-d' }}</td>
+      <td>{{ access.first_accessed_time|date:'H:i:s' }}</td>
       <td>{{ access.ip }}</td>
       <td>{{ access.user_agent }}</td>
+      {% if not page_name %}
       <td>{{ access.page }}</td>
+      {% endif %}
     </tr>
   {% endfor %}  
   </tbody>
@@ -74,23 +85,29 @@ function exportTableToExcel(tableID, filename = ''){
 <hr/>
 
 <div class='container'>
-<h4>Raw</h4>
+<h3>Raw</h3>
 
 <table id='raw' class='table table-hover table-sm caption-top'>
   <caption>접속자를 표시합니다. 모든 접속자를 시간 순서대로 나타닙니다. <!--(총 {{ accesses|length }} 건)--></caption>
   <thead>
+    <th>접속일</th>
     <th>접속시간</th>
     <th>IP Address</th>
     <th>User Agent</th>
+    {% if not page_name %}
     <th>Page</th>
+    {% endif %}
   </thead>
   <tbody>
   {% for access in accesses %}
     <tr>
-      <td>{{ access.accessed_time|date:'Y-m-d H:i:s' }}</td>
+      <td>{{ access.accessed_time|date:'Y-m-d' }}</td>
+      <td>{{ access.accessed_time|date:'H:i:s' }}</td>
       <td>{{ access.ip }}</td>
       <td>{{ access.user_agent }}</td>
+      {% if not page_name %}
       <td>{{ access.page }}</td>
+      {% endif %}
     </tr>
   {% endfor %}  
   </tbody>
