@@ -1,5 +1,8 @@
 {% load static %}
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
 function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -34,15 +37,19 @@ function exportTableToExcel(tableID, filename = ''){
 </script>
 
 {% block content %}
-  <div class="container">
 
+<div class="container">
+  <h1>Page View Report</h1>
+  <p></p>
+</div>
 
-<h2>Page View Report</h2>
+<div class="container">
 
-<h3>First Access (Remove duplication)</h3>
+<h4>First Access (Remove Duplication)</h4>
 
-<table id='firstAccess' border='1' cellspacing='0'>
-  <thead>
+<table id='firstAccess' class='table table-hover table-sm caption-top'>
+  <caption>접속자를 표시합니다. IP와 User-Agent기준으로 여러 번 접속한 사람은 첫 번째 접속만 보여집니다. <!--(총 {{ accesses_nodup|length }} 건)--></caption>
+  <thead class='table-light'>
     <th>접속시간</th>
     <th>IP Address</th>
     <th>User Agent</th>
@@ -60,16 +67,17 @@ function exportTableToExcel(tableID, filename = ''){
   </tbody>
 </table>
 
-<button onclick="exportTableToExcel('firstAccess', 'access')">Export Table Data To Excel File</button>
+<button class='btn btn-secondary btn-sm' onclick="exportTableToExcel('firstAccess', 'access')">Export Table Data To Excel File</button>
 
 </div>
 
 <hr/>
 
 <div class='container'>
-<h3>Raw</h3>
+<h4>Raw</h4>
 
-<table id='raw' border='1' cellspacing='0'>
+<table id='raw' class='table table-hover table-sm caption-top'>
+  <caption>접속자를 표시합니다. 모든 접속자를 시간 순서대로 나타닙니다. <!--(총 {{ accesses|length }} 건)--></caption>
   <thead>
     <th>접속시간</th>
     <th>IP Address</th>
@@ -88,7 +96,7 @@ function exportTableToExcel(tableID, filename = ''){
   </tbody>
 </table>
 
-<button onclick="exportTableToExcel('raw', 'raw')">Export Table Data To Excel File</button>
+<button class='btn btn-secondary btn-sm' onclick="exportTableToExcel('raw', 'raw')">Export Table Data To Excel File</button>
 
 </div>
 
